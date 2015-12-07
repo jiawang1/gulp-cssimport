@@ -19,7 +19,7 @@ exports.getExtension = getExtension;
 exports.trim = phpfn("trim");
 
 function isUrl(s) {
-	var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	var regexp = /(http:|https:)?\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 	return regexp.test(s);
 };
 
@@ -69,7 +69,10 @@ exports.isMatch = isMatch;
 
 exports.resolvePath = function (po, callback) {
 	if (po.isUrl()) {
-		var req = hh.request(po.path, function (res) {
+
+		var _opt = po.options?po.options:po.path;
+
+		var req = hh.request(_opt, function (res) {
 			collect(res, function (err, data) {
 				var content = data.toString();
 				callback(err, content, po);

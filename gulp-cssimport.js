@@ -66,6 +66,7 @@ module.exports = function cssImport(options) {
 			var pathObject = new PathObject({
 				index: index,
 				path: filePath,
+				options: options.httpRequestOptions,
 				directory: chunk.getDirectory()
 			});
 			fileArray[index] = format("importing file %j", pathObject);
