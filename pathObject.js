@@ -3,7 +3,7 @@ var path = require("path");
 
 function PathObject(data) {
 	this.index = data.index;
-	this.path = data.path;
+	this.path = data.path.search(/http|https/) < 0?("http:" + data.path):data.path;
 	this.directory = data.directory;
 
 	if(data.options && data.options.host && data.options.port){
@@ -12,12 +12,12 @@ function PathObject(data) {
 
 	if(this.options && this.isUrl()){
 		if(!this.options.path){
-			this.options.path = this.path.search(/http|https/) < 0?("http:" + this.path):this.path;
+			this.options.path = this.path;
 		}
 		this.options.headers = this.options.headers || {};
 		if(!this.options.headers.Host){
 			var _aMathes = this.path.match(/(?:\/\/([^\/]*))\//);
-			_aMathes.length > 0 && this.options.headers.Host = _aMathes[1];
+			(_aMathes.length > 0) && (this.options.headers.Host = _aMathes[1]);
 		}
 	}
 };
